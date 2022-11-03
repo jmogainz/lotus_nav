@@ -9,7 +9,7 @@ amcl:
     base_frame_id: "base_footprint"
     beam_skip_distance: 0.5
     beam_skip_error_threshold: 0.9
-    beam_skip_threshold: 0.3
+    beam_skip_threshold: 0.3    2
     do_beamskip: false
     global_frame_id: "map"
     initial_pose: [0.0, 2.0, 0.25, 0.0]
@@ -27,7 +27,7 @@ amcl:
     recovery_alpha_fast: 0.0
     recovery_alpha_slow: 0.0
     resample_interval: 1
-    robot_model_type: "differential"
+    robot_model_type: "nav2_amcl::DifferentialMotionModel"
     save_pose_rate: 0.5
     set_initial_pose: True
     sigma_hit: 0.2
