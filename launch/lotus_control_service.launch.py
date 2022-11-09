@@ -21,12 +21,12 @@ def generate_launch_description():
   robot_name_in_model = 'two_wheeled_robot'
   default_launch_dir = 'launch'
   gazebo_models_path = 'models'
-  map_file_path = 'maps/lotus_control_service_test_world/neobotix_area.yaml'
+  map_file_path = 'maps/lotus_control_service_test_world/blank_map.yaml'
   nav2_params_path = 'params/nav2_params_lotus_control_service.yaml'
-  robot_localization_file_path = 'config/ekf.yaml'
+  robot_localization_file_path = 'config/ekf_with_gps.yaml'
   rviz_config_file_path = 'rviz/cafe_world/nav2_config.rviz'
-  sdf_model_path = 'models/two_wheeled_robot_description/model.sdf'
-  urdf_file_path = 'urdf/two_wheeled_robot.urdf'
+  sdf_model_path = 'models/two_wheeled_robot_description/lotus_model.sdf'
+  urdf_file_path = 'urdf/lotus_robot.urdf'
   world_file_path = 'worlds/empty.world'
   
   # Pose where we want to spawn the robot
@@ -180,24 +180,45 @@ def generate_launch_description():
                   '-Y', spawn_yaw_val],
        output='screen')
 
-  # Start robot localization using an Extended Kalman filter
-  start_robot_localization_cmd = Node(
+  # Start the navsat transform node which converts GPS data into the world coordinate frame
+  start_navsat_transform_cmd = Node(
     package='robot_localization',
-    executable='ekf_node',
-    name='ekf_filter_node',
+    executable='navsat_transform_node',
+    name='navsat_transform',
     output='screen',
     parameters=[robot_localization_file_path, 
-    {'use_sim_time': use_sim_time}])
+    {'use_sim_time': use_sim_time}],
+    remappings=[('imu', 'imu/data'),
+                ('gps/fix', 'gps/fix'), 
+                ('gps/filtered', 'gps/filtered'),
+                ('odometry/gps', 'odometry/gps'),
+                ('odometry/filtered', 'odometry/global')])
+
+  # Start robot localization using an Extended Kalman filter...map->odom transform
+  start_robot_localization_global_cmd = Node(
+    package='robot_localization',
+    executable='ekf_node',
+    name='ekf_filter_node_map',
+    output='screen',
+    parameters=[robot_localization_file_path, 
+    {'use_sim_time': use_sim_time}],
+    remappings=[('odometry/filtered', 'odometry/global'),
+                ('/set_pose', '/initialpose')])
+
+  # Start robot localization using an Extended Kalman filter...odom->base_footprint transform
+  start_robot_localization_local_cmd = Node(
+    package='robot_localization',
+    executable='ekf_node',
+    name='ekf_filter_node_odom',
+    output='screen',
+    parameters=[robot_localization_file_path, 
+    {'use_sim_time': use_sim_time}],
+    remappings=[('odometry/filtered', 'odometry/local'),
+                ('/set_pose', '/initialpose')])
 
   publish_map_to_odom_cmd = Node(package = "tf2_ros", 
                        executable = "static_transform_publisher",
                        arguments = ["0", "0", "0", "0", "0", "0", "map", "odom"])
-
-  start_map_server_cmd = Node(
-        package='nav2_map_server',
-        executable='map_server',
-        output='screen',
-        parameters=[static_map_path])
 
   # Subscribe to the joint states of the robot, and publish the 3D pose of each link.
   start_robot_state_publisher_cmd = Node(
@@ -254,8 +275,9 @@ def generate_launch_description():
   ld.add_action(start_gazebo_client_cmd)
 
   ld.add_action(spawn_entity_cmd)
-  ld.add_action(start_map_server_cmd)
-  ld.add_action(start_robot_localization_cmd)
+  ld.add_action(start_navsat_transform_cmd)
+  ld.add_action(start_robot_localization_global_cmd)
+  ld.add_action(start_robot_localization_local_cmd)
   ld.add_action(start_robot_state_publisher_cmd)
   ld.add_action(start_rviz_cmd)
   ld.add_action(start_ros2_navigation_cmd)

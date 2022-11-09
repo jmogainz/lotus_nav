@@ -52,6 +52,7 @@ install(PROGRAMS
   scripts/robot_navigator.py
   scripts/security_demo.py
   scripts/waypoint_follower.py
+  scripts/lotus_waypoint_follower.py
   scripts/battery_state/battery_state_pub.py
   scripts/battery_state/charging_battery_pub.py
   scripts/battery_state/full_battery_pub.py
