@@ -38,15 +38,15 @@ def generate_launch_description():
   ########## You do not need to change anything below this line ###############
   
   # Set the path to different files and folders.  
-  pkg_gazebo_ros = FindPackageShare(package='gazebo_ros').find('gazebo_ros')   
+  # pkg_gazebo_ros = FindPackageShare(package='gazebo_ros').find('gazebo_ros')   
   pkg_share = FindPackageShare(package=package_name).find(package_name)
   default_launch_dir = os.path.join(pkg_share, default_launch_dir)
   default_urdf_model_path = os.path.join(pkg_share, urdf_file_path)
   robot_localization_file_path = os.path.join(pkg_share, robot_localization_file_path) 
   default_rviz_config_path = os.path.join(pkg_share, rviz_config_file_path)
   world_path = os.path.join(pkg_share, world_file_path)
-  gazebo_models_path = os.path.join(pkg_share, gazebo_models_path)
-  os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_path
+  # gazebo_models_path = os.path.join(pkg_share, gazebo_models_path)
+  # os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_path
   nav2_dir = FindPackageShare(package='nav2_bringup').find('nav2_bringup') 
   nav2_launch_dir = os.path.join(nav2_dir, 'launch') 
   sdf_model_path = os.path.join(pkg_share, sdf_model_path)
@@ -110,20 +110,20 @@ def generate_launch_description():
     default_value=default_rviz_config_path,
     description='Full path to the RVIZ config file to use')
 
-  declare_sdf_model_path_cmd = DeclareLaunchArgument(
-    name='sdf_model', 
-    default_value=sdf_model_path, 
-    description='Absolute path to robot sdf file')
+  # declare_sdf_model_path_cmd = DeclareLaunchArgument(
+  #   name='sdf_model', 
+  #   default_value=sdf_model_path, 
+  #   description='Absolute path to robot sdf file')
 
-  declare_simulator_cmd = DeclareLaunchArgument(
-    name='headless',
-    default_value='False',
-    description='Whether to execute gzclient')
+  # declare_simulator_cmd = DeclareLaunchArgument(
+  #   name='headless',
+  #   default_value='False',
+  #   description='Whether to execute gzclient')
 
-  declare_slam_cmd = DeclareLaunchArgument(
-    name='slam',
-    default_value='False',
-    description='Whether to run SLAM')
+  # declare_slam_cmd = DeclareLaunchArgument(
+  #   name='slam',
+  #   default_value='False',
+  #   description='Whether to run SLAM')
 
   declare_urdf_model_path_cmd = DeclareLaunchArgument(
     name='urdf_model', 
@@ -142,43 +142,43 @@ def generate_launch_description():
     
   declare_use_sim_time_cmd = DeclareLaunchArgument(
     name='use_sim_time',
-    default_value='true',
+    default_value='false',
     description='Use simulation (Gazebo) clock if true')
 
   declare_use_simulator_cmd = DeclareLaunchArgument(
     name='use_simulator',
-    default_value='True',
+    default_value='false',
     description='Whether to start the simulator')
 
-  declare_world_cmd = DeclareLaunchArgument(
-    name='world',
-    default_value=world_path,
-    description='Full path to the world model file to load')
+  # declare_world_cmd = DeclareLaunchArgument(
+  #   name='world',
+  #   default_value=world_path,
+  #   description='Full path to the world model file to load')
    
   # Specify the actions
 
   # Start Gazebo server
-  start_gazebo_server_cmd = IncludeLaunchDescription(
-    PythonLaunchDescriptionSource(os.path.join(pkg_gazebo_ros, 'launch', 'gzserver.launch.py')),
-    condition=IfCondition(use_simulator),
-    launch_arguments={'world': world}.items())
+  # start_gazebo_server_cmd = IncludeLaunchDescription(
+  #   PythonLaunchDescriptionSource(os.path.join(pkg_gazebo_ros, 'launch', 'gzserver.launch.py')),
+  #   condition=IfCondition(use_simulator),
+  #   launch_arguments={'world': world}.items())
 
-  # Start Gazebo client    
-  start_gazebo_client_cmd = IncludeLaunchDescription(
-    PythonLaunchDescriptionSource(os.path.join(pkg_gazebo_ros, 'launch', 'gzclient.launch.py')),
-    condition=IfCondition(PythonExpression([use_simulator, ' and not ', headless])))
+  # # Start Gazebo client    
+  # start_gazebo_client_cmd = IncludeLaunchDescription(
+  #   PythonLaunchDescriptionSource(os.path.join(pkg_gazebo_ros, 'launch', 'gzclient.launch.py')),
+  #   condition=IfCondition(PythonExpression([use_simulator, ' and not ', headless])))
 
   # Launch the robot
-  spawn_entity_cmd = Node(
-    package='gazebo_ros',
-    executable='spawn_entity.py',
-    arguments=['-entity', robot_name_in_model,
-               '-file', sdf_model,
-                  '-x', spawn_x_val,
-                  '-y', spawn_y_val,
-                  '-z', spawn_z_val,
-                  '-Y', spawn_yaw_val],
-       output='screen')
+  # spawn_entity_cmd = Node(
+  #   package='gazebo_ros',
+  #   executable='spawn_entity.py',
+  #   arguments=['-entity', robot_name_in_model,
+  #              '-file', sdf_model,
+  #                 '-x', spawn_x_val,
+  #                 '-y', spawn_y_val,
+  #                 '-z', spawn_z_val,
+  #                 '-Y', spawn_yaw_val],
+  #      output='screen')
 
   # Start the navsat transform node which converts GPS data into the world coordinate frame
   start_navsat_transform_cmd = Node(
@@ -260,21 +260,21 @@ def generate_launch_description():
   ld.add_action(declare_map_yaml_cmd)
   ld.add_action(declare_params_file_cmd)
   ld.add_action(declare_rviz_config_file_cmd)
-  ld.add_action(declare_sdf_model_path_cmd)
-  ld.add_action(declare_simulator_cmd)
-  ld.add_action(declare_slam_cmd)
+  # ld.add_action(declare_sdf_model_path_cmd)
+  # ld.add_action(declare_simulator_cmd)
+  # ld.add_action(declare_slam_cmd)
   ld.add_action(declare_urdf_model_path_cmd)
   ld.add_action(declare_use_robot_state_pub_cmd)  
   ld.add_action(declare_use_rviz_cmd) 
   ld.add_action(declare_use_sim_time_cmd)
-  ld.add_action(declare_use_simulator_cmd)
-  ld.add_action(declare_world_cmd)
+  # ld.add_action(declare_use_simulator_cmd)
+  # ld.add_action(declare_world_cmd)
 
   # Add any actions
-  ld.add_action(start_gazebo_server_cmd)
-  ld.add_action(start_gazebo_client_cmd)
+  # ld.add_action(start_gazebo_server_cmd)
+  # ld.add_action(start_gazebo_client_cmd)
 
-  ld.add_action(spawn_entity_cmd)
+  # ld.add_action(spawn_entity_cmd)
   ld.add_action(start_navsat_transform_cmd)
   ld.add_action(start_robot_localization_global_cmd)
   ld.add_action(start_robot_localization_local_cmd)

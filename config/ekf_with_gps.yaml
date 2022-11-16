@@ -2,7 +2,7 @@
 ekf_filter_node_odom:
     ros__parameters:
 
-        use_sim_time: true
+        use_sim_time: false
 
         
 # The frequency, in Hz, at which the filter will output a position estimate. Note that the filter will not begin
@@ -237,7 +237,7 @@ ekf_filter_node_odom:
 ekf_filter_node_map:
   ros__parameters:
 
-    use_sim_time: true
+    use_sim_time: false
 
 
     frequency: 30.0
@@ -332,15 +332,15 @@ ekf_filter_node_map:
 
 navsat_transform:
   ros__parameters:
-    use_sim_time: true
+    use_sim_time: false
     frequency: 10.0
     delay: 3.0
-    magnetic_declination_radians: 0.093084220955  # For lat/long of Atlanta, Georgia
+    magnetic_declination_radians: 0.0418879  # For lat/long of Atlanta, Georgia
     yaw_offset: 0.0  # if IMU reads 0 when facing magnetic north instead of east then set parameter to pi/2
     zero_altitude: true
     broadcast_utm_transform: true
     broadcast_utm_transform_as_parent_frame: true
     publish_filtered_gps: true
     use_odometry_yaw: false
-    wait_for_datum: true
+    wait_for_datum: false
         
