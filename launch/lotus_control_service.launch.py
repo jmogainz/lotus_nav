@@ -48,6 +48,8 @@ def generate_launch_description():
   # gazebo_models_path = os.path.join(pkg_share, gazebo_models_path)
   # os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_path
   nav2_dir = FindPackageShare(package='nav2_bringup').find('nav2_bringup') 
+  ublox_dir = FindPackageShare(package='ublox_gps').find('ublox_gps')
+  ublox_launch_dir = os.path.join(ublox_dir, 'launch')
   nav2_launch_dir = os.path.join(nav2_dir, 'launch') 
   sdf_model_path = os.path.join(pkg_share, sdf_model_path)
   static_map_path = os.path.join(pkg_share, map_file_path)
@@ -180,6 +182,16 @@ def generate_launch_description():
   #                 '-Y', spawn_yaw_val],
   #      output='screen')
 
+  start_imu_publisher_cmd = Node(
+    package="bno055_sensor",
+    executable="bno055_sensor_node",
+    arguments=["--ros-args", "-p", "i2c_address:=/dev/i2c-0"],
+    output='screen'
+  )
+
+  start_ublox_gps_cmd = IncludeLaunchDescription(
+    PythonLaunchDescriptionSource(os.path.join(ublox_launch_dir, 'ublox_gps_node-launch.py')))
+
   # Start the navsat transform node which converts GPS data into the world coordinate frame
   start_navsat_transform_cmd = Node(
     package='robot_localization',
@@ -280,13 +292,16 @@ def generate_launch_description():
   # ld.add_action(start_gazebo_client_cmd)
 
   # ld.add_action(spawn_entity_cmd)
-  ld.add_action(start_navsat_transform_cmd)
+  ld.add_action(start_imu_publisher_cmd)
+  ld.add_action(start_ublox_gps_cmd)
+  ld.add_action(publish_map_to_odom_cmd)
   ld.add_action(start_robot_localization_global_cmd)
   ld.add_action(start_robot_localization_local_cmd)
   ld.add_action(start_robot_state_publisher_cmd)
   ld.add_action(start_joint_state_publisher_cmd)
+  ld.add_action(start_navsat_transform_cmd)
   # ld.add_action(start_rviz_cmd)
+
   ld.add_action(start_ros2_navigation_cmd)
-  ld.add_action(publish_map_to_odom_cmd)
 
   return ld
