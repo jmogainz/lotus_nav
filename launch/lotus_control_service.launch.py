@@ -26,7 +26,7 @@ def generate_launch_description():
   robot_localization_file_path = 'config/ekf_with_gps.yaml'
   rviz_config_file_path = 'rviz/cafe_world/nav2_config.rviz'
   sdf_model_path = 'models/two_wheeled_robot_description/lotus_model.sdf'
-  urdf_file_path = 'urdf/lotus_robot.urdf'
+  urdf_file_path = 'urdf/robots/4wd.urdf.xacro'
   world_file_path = 'worlds/empty.world'
   
   # Pose where we want to spawn the robot
@@ -231,6 +231,11 @@ def generate_launch_description():
     remappings=remappings,
     arguments=[default_urdf_model_path])
 
+  start_joint_state_publisher_cmd = Node(
+    package='joint_state_publisher',
+    executable='joint_state_publisher',
+    name='joint_state_publisher')
+
   # Launch RViz
   start_rviz_cmd = Node(
     condition=IfCondition(use_rviz),
@@ -279,7 +284,8 @@ def generate_launch_description():
   ld.add_action(start_robot_localization_global_cmd)
   ld.add_action(start_robot_localization_local_cmd)
   ld.add_action(start_robot_state_publisher_cmd)
-  ld.add_action(start_rviz_cmd)
+  ld.add_action(start_joint_state_publisher_cmd)
+  # ld.add_action(start_rviz_cmd)
   ld.add_action(start_ros2_navigation_cmd)
   ld.add_action(publish_map_to_odom_cmd)
 
