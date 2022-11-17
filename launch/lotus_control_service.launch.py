@@ -49,6 +49,8 @@ def generate_launch_description():
   # os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_path
   nav2_dir = FindPackageShare(package='nav2_bringup').find('nav2_bringup') 
   ublox_dir = FindPackageShare(package='ublox_gps').find('ublox_gps')
+  vesc_dir = FindPackageShare(package='vesc_driver').find('vesc_driver')
+  vesc_launch_dir = os.path.join(vesc_dir, 'launch')
   ublox_launch_dir = os.path.join(ublox_dir, 'launch')
   nav2_launch_dir = os.path.join(nav2_dir, 'launch') 
   sdf_model_path = os.path.join(pkg_share, sdf_model_path)
@@ -192,6 +194,9 @@ def generate_launch_description():
   start_ublox_gps_cmd = IncludeLaunchDescription(
     PythonLaunchDescriptionSource(os.path.join(ublox_launch_dir, 'ublox_gps_node-launch.py')))
 
+  start_vesc_driver_cmd = IncludeLaunchDescription(
+    PythonLaunchDescriptionSource(os.path.join(vesc_launch_dir, 'launch_vesc_driver.launch.py')))
+
   # Start the navsat transform node which converts GPS data into the world coordinate frame
   start_navsat_transform_cmd = Node(
     package='robot_localization',
@@ -294,6 +299,7 @@ def generate_launch_description():
   # ld.add_action(spawn_entity_cmd)
   ld.add_action(start_imu_publisher_cmd)
   ld.add_action(start_ublox_gps_cmd)
+  ld.add_action(start_vesc_driver_cmd)
   ld.add_action(publish_map_to_odom_cmd)
   ld.add_action(start_robot_localization_global_cmd)
   ld.add_action(start_robot_localization_local_cmd)
