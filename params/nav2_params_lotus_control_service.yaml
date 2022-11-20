@@ -218,6 +218,8 @@ planner_server:
     planner_plugins: ["GridBased"]
     GridBased:
       plugin: "nav2_smac_planner/SmacPlannerHybrid"
+      downsample_costmap: true         # whether or not to downsample the map
+      downsampling_factor: 3 
       tolerance: 0.5
       use_astar: false
       allow_unknown: true
