@@ -150,7 +150,7 @@ ekf_filter_node_odom:
         
         imu0_nodelay: false
         imu0_differential: false
-        imu0_relative: true
+        imu0_relative: false
         imu0_queue_size: 7
         imu0_pose_rejection_threshold: 0.8                 # Note the difference in parameter names
         imu0_twist_rejection_threshold: 0.8                #
@@ -336,7 +336,7 @@ navsat_transform:
     frequency: 20.0
     delay: 30.0
     magnetic_declination_radians: 0.0418879  # For lat/long of Atlanta, Georgia
-    yaw_offset: 0.0  # if IMU reads 0 when facing magnetic north instead of east then set parameter to pi/2
+    yaw_offset: 1.571  # if IMU reads 0 when facing magnetic north instead of east then set parameter to pi/2
     zero_altitude: true
     broadcast_utm_transform: true
     broadcast_utm_transform_as_parent_frame: true
