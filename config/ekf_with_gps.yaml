@@ -75,11 +75,11 @@ ekf_filter_node_odom:
         base_link_frame: base_footprint  # Defaults to "base_link" if unspecified
         world_frame: odom                 # Defaults to the value of odom_frame if unspecified
 
-# The filter accepts an arbitrary number of inputs from each input message type (nav_msgs/Odometry,
-# geometry_msgs/PoseWithCovarianceStamped, geometry_msgs/TwistWithCovarianceStamped,
-# sensor_msgs/Imu). To add an input, simply append the next number in the sequence to its "base" name, e.g., odom0,
-# odom1, twist0, twist1, imu0, imu1, imu2, etc. The value should be the topic name. These parameters obviously have no
-# default values, and must be specified.
+# # The filter accepts an arbitrary number of inputs from each input message type (nav_msgs/Odometry,
+# # geometry_msgs/PoseWithCovarianceStamped, geometry_msgs/TwistWithCovarianceStamped,
+# # sensor_msgs/Imu). To add an input, simply append the next number in the sequence to its "base" name, e.g., odom0,
+# # odom1, twist0, twist1, imu0, imu1, imu2, etc. The value should be the topic name. These parameters obviously have no
+# # default values, and must be specified.
         odom0: wheel/odometry
 
 # Each sensor reading updates some or all of the filter's state. These options give you greater control over which
@@ -339,7 +339,8 @@ navsat_transform:
     yaw_offset: 1.571  # if IMU reads 0 when facing magnetic north instead of east then set parameter to pi/2
     zero_altitude: true
     broadcast_utm_transform: true
-    broadcast_utm_transform_as_parent_frame: true
+    broadcast_cartesian_transform: true
+    broadcast_cartesian_transform_as_parent_frame: true
     publish_filtered_gps: true
     use_odometry_yaw: false
     wait_for_datum: false
