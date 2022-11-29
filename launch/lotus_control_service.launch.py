@@ -300,7 +300,7 @@ def generate_launch_description():
   ld.add_action(start_imu_publisher_cmd)
   ld.add_action(start_ublox_gps_cmd)
   ld.add_action(start_vesc_driver_cmd)
-  ld.add_action(publish_map_to_odom_cmd)
+  # ld.add_action(publish_map_to_odom_cmd)
   ld.add_action(start_robot_localization_global_cmd)
   ld.add_action(start_robot_localization_local_cmd)
   ld.add_action(start_robot_state_publisher_cmd)
