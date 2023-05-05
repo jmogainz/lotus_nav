@@ -1,13 +1,8 @@
-# Two Wheeled Robot - ROS 2
+# LOTUS Robot - ROS 2
 
----
-
-## Description
-
-This robot is a two-wheeled differential drive robot.
-For further information about how to bring up the robot, check out this link: [How to Load a URDF File into RViz](https://automaticaddison.com/how-to-load-a-urdf-file-into-rviz-ros-2/)
-
----
-
-## Maintenance
-This repository is maintained by [Addison Sears-Collins](https://github.com/automaticaddison). In case of any problems, please don't hesitate to contact me.       
+## How to run
+1. Source ros
+2. colcon build in the ros2 workspace directory
+3. ros2 launch lotus_nav lotus_control_service.launch.py
+4. Open another terminal and source ros
+5. ros2 run base_station_receiver bs_nav_receiver.py
