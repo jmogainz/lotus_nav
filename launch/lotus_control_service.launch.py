@@ -24,7 +24,7 @@ def generate_launch_description():
   map_file_path = 'maps/lotus_control_service_test_world/blank_map.yaml'
   nav2_params_path = 'params/regulated_velo.yaml'
   robot_localization_file_path = 'config/ekf_with_gps.yaml'
-  rviz_config_file_path = 'rviz/cafe_world/nav2_config.rviz'
+  rviz_config_file_path = 'rviz/sample_world/nav2_config.rviz'
   sdf_model_path = 'models/two_wheeled_robot_description/lotus_model.sdf'
   urdf_file_path = 'urdf/robots/4wd.urdf.xacro'
   world_file_path = 'worlds/empty.world'
@@ -187,7 +187,7 @@ def generate_launch_description():
   start_imu_publisher_cmd = Node(
     package="bno055_sensor",
     executable="bno055_sensor_node",
-    arguments=["--ros-args", "-p", "i2c_address:=/dev/i2c-0"],
+    arguments=["--ros-args", "-p", "i2c_address:=/dev/i2c-1"],
     output='screen'
   )
 

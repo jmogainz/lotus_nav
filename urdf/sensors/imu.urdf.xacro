@@ -5,7 +5,7 @@
     <joint name="imu_to_base_link" type="fixed">
       <parent link="base_link"/>
       <child link="imu_link"/>
-      <origin xyz="0 0 .2032" rpy="-0.175 -0.105 3.14"/>
+      <origin xyz="0.08161 0.0551 .15748" rpy="0 0 1.57"/>
     </joint>
     
   </xacro:macro>
