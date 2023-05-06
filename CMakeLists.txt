@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(two_wheeled_robot)
+project(lotus_nav)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)

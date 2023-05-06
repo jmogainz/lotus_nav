@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>two_wheeled_robot</name>
+  <name>lotus_nav</name>
   <version>1.0.0</version>
-  <description>A two-wheeled mobile robot with an IMU sensor and LIDAR</description>
+  <description>Navigation systems for a robot with an IMU sensor and LIDAR</description>
   <maintainer email="automaticaddison@todo.todo">AutomaticAddison</maintainer>
   <license>MIT License</license>
 
