@@ -37,8 +37,6 @@ install(
   DESTINATION share/${PROJECT_NAME}
 )
 
-# Install Python modules for import
-ament_python_install_package(${PROJECT_NAME})
 
 # Install Python executables
 install(PROGRAMS
